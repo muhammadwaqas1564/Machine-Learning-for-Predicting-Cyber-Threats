@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Analytics for Cyber Threats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+
+    <style>
+        /* General Styles */
+        /* Global Styles */
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background: #000;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Section Styles */
+section {
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Video Background */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    object-fit: cover;
+    filter: brightness(0.4); /* Darker filter for better contrast */
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #080808, #29292a);
+    padding: 15px 40px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3); /* Enhanced shadow for more depth */
+    
+    /* Move navbar upwards by 20px */
+    position: absolute;
+    top: 40%; /* This will move the navbar upwards */
+    left: 50%;
+    transform: translateX(-50%); /* Keep only horizontal centering */
+    z-index: 1000;
+}
+
+
+
+
+
+
+/* Navbar Logo */
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    font-size: 26px;
+    font-weight: 600;
+    color: white;
+}
+
+.navbar .logo img {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+/* Navbar Menu */
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+/* Navbar List Items */
+.navbar ul li {
+    margin: 0 25px;
+}
+
+/* Navbar Links */
+.navbar ul li a {
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+/* Navbar Link Hover Effect */
+.navbar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* Soft hover effect */
+    color: #0d47a1;
+    transform: translateY(-2px);
+}
+
+/* Section Heading (move heading below navbar) */
+section h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-top: 100px; /* Added margin-top to move heading below navbar */
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow for readability */
+}
+
+/* Section Subheading (below heading) */
+section p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: white;
+    max-width: 900px;
+    margin-top: 20px;
+    text-align: center;
+    opacity: 0.85; /* Slight opacity for softer look */
+}
+
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background: #000;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* Small Navbar for Login/Signup */
+.login-signup-navbar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-image: url("{{ url_for('static', filename='bgpic.png') }}"); /* Add image URL */
+    background-size: cover; /* Ensure the image covers the whole container */
+    background-position: center; /* Center the image */
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    z-index: 2000; 
+    padding: 10px 20px;
+    width: auto;
+    height: auto;
+}
+
+
+.login-signup-navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.login-signup-navbar ul li {
+    margin: 0;
+}
+
+.login-signup-navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    background: rgba(0, 0, 0, 0.5); /* Transparent dark background for contrast */
+}
+
+/* Hover Effect for Login/Signup links */
+.login-signup-navbar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Optional: Adjust the link appearance on smaller screens */
+@media (max-width: 768px) {
+    .login-signup-navbar ul {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px 20px;
+    }
+
+    .navbar .logo {
+        font-size: 24px;
+    }
+
+    .navbar ul {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .navbar ul li {
+        margin: 10px 0;
+    }
+
+    .navbar ul li a {
+        font-size: 16px;
+    }
+
+    section h1 {
+        font-size: 42px;
+    }
+
+    section p {
+        font-size: 18px;
+    }
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 480px) {
+    section h1 {
+        font-size: 36px;
+    }
+
+    section p {
+        font-size: 16px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 10px 25px;
+    }
+}
+
+        /* Heading and Text */
+        h1 {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+            max-width: 800px;
+            margin: 10px auto;
+        }
+
+        /* Call-to-Action Button */
+        .cta-button {
+    text-decoration: none;
+    background-color: #e63946;
+    color: white;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    position: relative; /* This allows us to use the `top` property */
+    top: 40px; /* Moves the button 40px down */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+        .cta-button:hover {
+            background-color: #d62828;
+            transform: scale(1.05);
+        }
+/* About Section */
+#about {
+    background: linear-gradient(to bottom, #1d3557, #457b9d);
+    color: white;
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    text-align: center;
+}
+
+/* About Section Header */
+#about h2 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* About Content Layout */
+.about-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Text and Image Layout */
+.about-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+/* About Text */
+.about-text {
+    width: 50%;
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: left;
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: fadeInText 1.5s ease-out forwards;
+}
+
+/* Image */
+.about-image {
+    width: 45%;
+    opacity: 0;
+    transform: translateX(50px);
+    animation: fadeInImage 1.5s ease-out forwards;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+#data-privacy {
+  background-color: #0a192f;
+  color: #ffffff;
+  padding: 80px 0;
+}
+
+#data-privacy .container {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#data-privacy h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #1e90ff;
+}
+
+#data-privacy p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  color: #aaa;
+}
+
+.privacy-slider {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.privacy-points {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 300%; /* 3 slides at a time */
+}
+
+.privacy-points .point {
+  background-color: #1e2836;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 33.33%; /* Each point takes up 1/3rd of the slider width */
+  box-sizing: border-box;
+  margin-right: 20px;
+  text-align: left;
+}
+
+.privacy-points .point:hover {
+  background-color: #0d1b26;
+}
+
+.privacy-points h3 {
+  font-size: 1.6rem;
+  color: #1e90ff;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.privacy-points p {
+  font-size: 1rem;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+/* Arrow buttons */
+.slider-prev, .slider-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 15px;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.slider-prev {
+  left: 20px;
+}
+
+.slider-next {
+  right: 20px;
+}
+
+/* Arrow hover effect */
+.slider-prev:hover, .slider-next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .privacy-points {
+    flex-direction: column;
+  }
+
+  .privacy-points .point {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  #data-privacy h2 {
+    font-size: 2rem;
+  }
+
+  #data-privacy p {
+    font-size: 1.1rem;
+  }
+
+  .privacy-points h3 {
+    font-size: 1.4rem;
+  }
+
+  .privacy-points p {
+    font-size: 0.95rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .privacy-points .point {
+    width: 100%;
+  }
+
+  #data-privacy h2 {
+    font-size: 1.8rem;
+  }
+
+  #data-privacy p {
+    font-size: 1rem;
+  }
+
+  .privacy-points h3 {
+    font-size: 1.2rem;
+  }
+
+  .privacy-points p {
+    font-size: 0.9rem;
+  }
+}
+
+ /* Base Styles */
+ body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f7fa;
+  }
+
+  #public-availability {
+      width: 100%;
+      background-color: #1c2b36; /* Dark base color */
+      padding: 80px 0;
+  }
+
+  .availability-container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      color: #f0f0f0;
+  }
+
+  h2 {
+      font-size: 2.8rem;
+      color: #00aaff; /* Bright blue color */
+      font-weight: 600;
+      margin-bottom: 30px;
+  }
+
+  p {
+      font-size: 1.1rem;
+      color: #b0bec5;
+      line-height: 1.6;
+      margin-bottom: 40px;
+  }
+
+  /* Content Layout */
+  .content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 50px;
+      flex-wrap: wrap;
+  }
+
+  .text-content {
+      flex: 1;
+      max-width: 60%;
+      text-align: left;
+  }
+
+  .availability-info {
+      margin-top: 30px;
+  }
+
+  .info-item {
+      margin-bottom: 30px;
+      padding-left: 20px;
+      position: relative;
+  }
+
+  .info-item:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #00aaff;
+      transform: translateY(-50%);
+  }
+
+  .info-item h3 {
+      font-size: 1.6rem;
+      color: #ffffff;
+      font-weight: 500;
+      margin-bottom: 10px;
+  }
+
+  .info-item p {
+      font-size: 1.1rem;
+      color: #d0d7df;
+      line-height: 1.6;
+  }
+
+  /* Image Styling */
+  .image-content {
+      flex: 1;
+      max-width: 40%;
+      text-align: center;
+  }
+
+  .image-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .image-content img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Responsive Styles */
+  @media screen and (max-width: 1024px) {
+      .content {
+          flex-direction: column;
+          text-align: center;
+      }
+
+      .text-content {
+          max-width: 100%;
+          margin-bottom: 40px;
+      }
+
+      .image-content {
+          max-width: 100%;
+      }
+
+      .availability-info {
+          margin-top: 40px;
+      }
+  }
+
+  @media screen and (max-width: 768px) {
+      h2 {
+          font-size: 2.2rem;
+      }
+
+      .availability-info h3 {
+          font-size: 1.3rem;
+      }
+
+      .availability-info p {
+          font-size: 1rem;
+      }
+
+      .image-content img {
+          width: 90%;
+          margin-top: 20px;
+      }
+  }
+
+
+/* Footer Section */
+.footer {
+    background: linear-gradient(90deg, #080808, #29292a);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.footer-logo img {
+    height: 40px;
+    width: 40px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.footer-links li {
+    margin: 0;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #42a5f5;
+}
+
+.footer-social {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.social-link {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.social-link:hover {
+    color: #42a5f5;
+}
+
+.footer-bottom {
+    border-top: 1px solid #42a5f5;
+    padding-top: 15px;
+    font-size: 16px;
+}
+
+/* Responsive Design for Footer */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-logo {
+        font-size: 24px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-links a {
+        font-size: 16px;
+    }
+
+    .footer-social {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .social-link {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-logo {
+        font-size: 20px;
+    }
+
+    .footer-links a {
+        font-size: 14px;
+    }
+
+    .footer-social .social-link {
+        font-size: 14px;
+    }
+}
+
+
+/* Keyframes for Animation */
+@keyframes fadeInText {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInImage {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .about-text, .about-image {
+        width: 100%;
+    }
+
+    .about-image {
+        margin-top: 20px;
+    }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    #about h2 {
+        margin-left: 20px;
+        text-align: center;
+    }
+
+    .about-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .about-paragraph {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .about-image {
+        margin: 20px 0;
+    }
+}
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar ul li {
+                margin: 10px 0;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .about-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .navbar {
+                padding: 10px 15px;
+            }
+
+            .navbar ul li {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Video Background -->
+    <video class="video-background" autoplay loop muted>
+        <source src="{{ url_for('static', filename='cyber_video.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+<!-- Home Section -->
+<section id="home">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logopic.png') }}" alt="Placeholder Image">
+            CyberGuard
+        </div>
+        <ul>
+            <li><a href="">Home</a></li>
+            <li><a href="{{ url_for('dataset') }}">Dataset</a></li> <!-- Link to Dataset Page -->
+            <li><a href="{{ url_for('executivedashboard') }}">Executive Dashboard</a></li>
+            <li><a href="{{ url_for('intrusiondetection') }}">Instrusion Detection</a></li>
+
+        </ul>
+    </nav>
+        
+            
+<!-- Small Navbar for Login/Signup -->
+<div class="login-signup-navbar">
+    <ul>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+    </ul>
+</div>
+
+        </ul>
+    </nav>
+
+    <!-- Overlay for text contrast -->
+    <div class="home-overlay"></div>
+
+    <!-- Heading and Text -->
+    <div class="home-content">
+        <h1>Predictive Analytics for Cyber Threats</h1>
+        <p>Leveraging artificial intelligence to predict and mitigate cyber threats before they occur. Stay ahead with AI-driven security solutions.</p>
+        
+    </div>
+      
+</section>
+
+<!-- About Section -->
+<section id="about">
+    <div class="about-container">
+        <h2>Predictive Analytics for Cyber Threats Using Artificial Intelligence</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>
+                    Predictive Analytics for Cyber Threats harnesses the power of artificial intelligence and machine learning to forecast and prevent cyber threats in real-time. By analyzing historical data, behavior patterns, and emerging trends, we aim to proactively identify vulnerabilities, strengthen defenses, and respond swiftly to mitigate potential attacks.
+                </p>
+                <p>
+                    Our advanced analytics engine helps organizations build a robust security infrastructure that anticipates threats before they materialize. With a strong emphasis on data-driven decision-making, we aim to revolutionize the way businesses approach cybersecurity by offering predictive insights and smart threat detection.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='aboutpic.png') }}" alt="Cyber Threat Analytics">
+            </div>
+        </div>
+    </div>
+</section>
+<section id="data-privacy">
+    <div class="container">
+      <h2>Data Privacy & Security</h2>
+      <p>Your privacy is a top priority. Below are the key points regarding our data privacy policies, specifically designed to secure your personal and sensitive information while enhancing our predictive analytics capabilities for cyber threats.</p>
+      
+      <div class="privacy-slider">
+        <div class="privacy-points">
+          <div class="point">
+            <h3>1. End-to-End Encryption</h3>
+            <p>We use state-of-the-art encryption techniques to ensure that your data is protected from unauthorized access during transmission. All predictive analytics insights are securely shared and encrypted at every stage.</p>
+          </div>
+          <div class="point">
+            <h3>2. Real-Time Threat Monitoring</h3>
+            <p>Our system continuously monitors for emerging cyber threats, ensuring proactive defense mechanisms are in place to safeguard your data and systems.</p>
+          </div>
+          <div class="point">
+            <h3>3. Data Minimization</h3>
+            <p>We only collect data that is strictly necessary for generating accurate predictions and do not retain sensitive information longer than required.</p>
+          </div>
+          <div class="point">
+            <h3>4. Regular Security Audits</h3>
+            <p>Our predictive analytics environment undergoes frequent security audits and penetration testing to identify and mitigate vulnerabilities, ensuring the safety of all operations.</p>
+          </div>
+          <div class="point">
+            <h3>5. Secure Data Storage</h3>
+            <p>Your data is stored in highly secure, encrypted cloud environments that comply with industry standards, ensuring robust protection even in the event of cyber threats.</p>
+          </div>
+          <div class="point">
+            <h3>6. Real-Time Threat Monitoring</h3>
+            <p>Our system continuously monitors for emerging cyber threats, ensuring proactive defense mechanisms are in place to safeguard your data and systems.</p>
+          </div>
+        </div>
+        <button class="slider-prev">←</button>
+        <button class="slider-next">→</button>
+      </div>
+    </div>
+  </section>
+  
+  
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const prevButton = document.querySelector('.slider-prev');
+    const nextButton = document.querySelector('.slider-next');
+    const slider = document.querySelector('.privacy-points');
+    const totalSlides = document.querySelectorAll('.privacy-points .point').length;
+    let currentIndex = 0;
+
+    // Update slider to show the current slide
+    function updateSlider() {
+        const offset = -(currentIndex * 33.33); // 33.33% to move 1 slide at a time
+        slider.style.transform = `translateX(${offset}%)`;
+    }
+
+    // Show the next slide
+    nextButton.addEventListener('click', function() {
+        currentIndex = (currentIndex + 1) % (totalSlides / 3); // Loop back after the last slide
+        updateSlider();
+    });
+
+    // Show the previous slide
+    prevButton.addEventListener('click', function() {
+        currentIndex = (currentIndex - 1 + totalSlides / 3) % (totalSlides / 3); // Loop back after the first slide
+        updateSlider();
+    });
+});
+
+  </script>
+
+
+   <!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="{{ url_for('static', filename='logopic.png') }}" alt="Placeholder Image">
+            <span>CyberGuard</span>
+        </div>
+        <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#data-privacy">Data Privacy</a></li>
+            <li><a href="">Dataset</a></li>
+            <li><a href="">Executive Dashboard</a></li>
+        </ul>
+        
+    <div class="footer-bottom">
+        <p>&copy; 2025 CyberGuard. All Rights Reserved.</p>
+    </div>
+</footer>
+
+
+</body>
+</html>

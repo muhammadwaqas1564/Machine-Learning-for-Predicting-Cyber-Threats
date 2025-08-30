@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGuard</title>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            color: white;
+            background: #000;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        section {
+            padding: 80px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            filter: brightness(0.4);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, #080808, #29292a);
+            padding: 15px 40px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            font-size: 26px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .navbar .logo img {
+            height: 40px;
+            width: 40px;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin: 0 25px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navbar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #0d47a1;
+            transform: translateY(-2px);
+        }
+
+        section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            margin-top: 100px;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 4px 4px 10px rgb(0, 0, 0);
+        }
+
+        .chart-info-text {
+            margin-top: 30px;
+            margin-bottom: -30px;
+            font-size: 20px;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 2px #000;
+            text-align: left;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .chart-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 40px;
+        }
+
+        .modelPerformance-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 1200px;
+            margin-top: 40px;
+        }
+
+            
+        .risk-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.02);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+            margin-bottom: -30px;
+            width: 90%;
+            max-width: 1200px;
+            color: #ffffff;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .risk-description {
+            flex: 1;
+            font-size: 16px;
+            text-align: left;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            min-width: 250px;
+        }
+
+        .risk-gradient-line {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .risk-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            width: 70px;
+            text-align: center;
+        }
+
+        .gradient-bar {
+            flex-grow: 1;
+            height: 10px;
+            margin: 0 10px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #0d47a1, #1976d2, #0288d1, #4dd0e1, #81d4fa); /* green to yellow to red */
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+        }
+
+
+        .charts-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .charts-container canvas {
+            width: 320px !important;
+            height: 320px !important;
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+
+        .risk-grid {
+            display: grid;
+            grid-template-columns: 2fr 2fr 2fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 10px;
+            margin-top: 30px;
+            color: #000;
+            font-weight: 500;
+        }
+
+        .risk-dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: repeat(2, 1fr);
+            gap: 10px;
+            height: 400px;
+            padding: 30px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .risk-tile {
+            padding: 20px;
+            color: white;
+            border-radius: 12px;
+            font-family: Arial, sans-serif;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .tile-1 {
+            background: linear-gradient(to top left, #0d47a1, #1976d2);
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .tile-2 {
+            background: linear-gradient(to top left, #1976d2, #0288d1);
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .tile-3 {
+            background: linear-gradient(to top left, #0288d1, #4dd0e1);
+            grid-column: 2;
+            grid-row: 1 / span 2;
+        }
+
+        .tile-4 {
+            background: linear-gradient(to top left, #4dd0e1, #81d4fa);
+            grid-column: 3;
+            grid-row: 1;
+        }
+
+        .tile-5 {
+            background: linear-gradient(to top left, #81d4fa, #b3e5fc);
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        .risk-tile h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .tile-row {
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+        }
+
+        .tile-row.values div {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .tile-row.labels div {
+            font-size: 12px;
+            color: #eee;
+            margin-top: 3px;
+        }
+
+                            
+
+        .prediction-container {
+            margin-top: 20px;
+        }
+
+        .prediction-container input {
+            padding: 10px;
+            width: 300px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ffffff;
+        }
+
+        .prediction-container button {
+            padding: 10px 20px;
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .prediction-container button:hover {
+            background-color: #0a3574;
+        }
+
+        .modelPerformance-card {
+            max-width: 500px;
+            height: 400px;
+            margin: 20px auto;
+            padding: 15px;
+            background: #f0f4f8;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confusion-placeholder {
+            width: 300px;
+            height: 300px;
+            border: 2px dashed #aaa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+
+
+
+
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #ffffff;
+        }
+        
+
+
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                margin-top: 15px;
+            }
+
+            section h1 {
+                font-size: 36px;
+            }
+
+            .charts-container {
+                flex-direction: column;
+            }
+
+            .charts-container canvas {
+                width: 100% !important;
+                height: 250px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Video -->
+    <video class="video-background" autoplay loop muted>
+        <source src="{{ url_for('static', filename='cyber_video.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Main Section -->
+    <section id="home">
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='logopic.png') }}" alt="Placeholder Image">
+                CyberGuard
+            </div>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('dataset') }}">Dataset</a></li> <!-- Link to Dataset Page -->
+                <li><a href="">Executive Dashboard</a></li>
+                <li><a href="{{ url_for('intrusiondetection') }}">Instrusion Detection</a></li>
+            </ul>
+        </nav>
+
+        <h1>Executive Dashboard</h1>
+
+       
+        <!-- Prediction Form -->
+        <div class="prediction-container">
+            <input id="csvFile" type="file" accept=".csv">
+            <button id="predict-btn">Predict</button>
+            <div id="result"></div>
+        </div>
+
+        <!-- Instructional Text -->
+        <!-- <p class="chart-info-text">NIST 800-53</p>
+
+        <div class="risk-gradient-line">
+            <span class="risk-label left">Low Risk</span>
+            <div class="gradient-bar"></div>
+            <span class="risk-label right">High Risk</span>
+        </div> -->
+        <div class="risk-container">
+            <p class="risk-description">
+                NIST SP 800-53
+            </p>
+            <div class="risk-gradient-line">
+                <span class="risk-label">Low Risk</span>
+                <div class="gradient-bar"></div>
+                <span class="risk-label">High Risk</span>
+            </div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-card">
+            <div class="charts-container">
+                <canvas id="doughnutChart"></canvas>
+                <canvas id="myChart"></canvas>
+                <canvas id="barChart"></canvas>
+                
+            </div>
+            <div class="risk-dashboard">
+                <div class="risk-tile tile-1">
+                    <h3>1) Phishing</h3>
+                    <div class="tile-row values">
+                    <div>50</div>
+                    <div>42</div>
+                    <div>$4.8 M</div>
+                    </div>
+                    <div class="tile-row labels">
+                    <div>Current</div>
+                    <div>Target</div>
+                    <div>Avg Loss</div>
+                    </div>
+                </div>
+
+                <div class="risk-tile tile-2">
+                    <h3>2) Ransomware</h3>
+                    <div class="tile-row values">
+                    <div>41</div>
+                    <div>36</div>
+                    <div>$5.3 M</div>
+                    </div>
+                    <div class="tile-row labels">
+                    <div>Current</div>
+                    <div>Target</div>
+                    <div>Avg Loss</div>
+                    </div>
+                </div>
+
+                <div class="risk-tile tile-3">
+                    <h3>3) Identity-based cloud<br>security threats</h3>
+                    <div class="tile-row values">
+                    <div>35</div>
+                    <div>29</div>
+                    <div>$1.0 M</div>
+                    </div>
+                    <div class="tile-row labels">
+                    <div>Current</div>
+                    <div>Target</div>
+                    <div>Avg Loss</div>
+                    </div>
+                </div>
+
+                <div class="risk-tile tile-4">
+                    <h3>4) Insider Threat</h3>
+                    <div class="tile-row values">
+                    <div>24</div>
+                    <div>21</div>
+                    <div>$17.4 M</div>
+                    </div>
+                    <div class="tile-row labels">
+                    <div>Current</div>
+                    <div>Target</div>
+                    <div>Avg Loss</div>
+                    </div>
+                </div>
+
+                <div class="risk-tile tile-5">
+                    <h3>5) Other</h3>
+                    <div class="tile-row values">
+                    <div>17</div>
+                    <div>15</div>
+                    <div>$6.0 T</div>
+                    </div>
+                    <div class="tile-row labels">
+                    <div>Current</div>
+                    <div>Target</div>
+                    <div>Avg Loss</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <h1>MODEL PERFORMANCE</h1>
+
+        <div class="chart-row">
+            <!-- Confusion Matrix -->
+            <div class="chart-card" id="confusionMatrixContainer">
+                <div id="placeholderBox" class="confusion-placeholder">
+                    <p>Confusion Matrix</p>
+                </div>
+                <img id="confusionMatrixImage"
+                    alt="Confusion Matrix Heatmap"
+                    style="display: none; width: 90%; height: 90%; border-radius: 8px;" />
+            </div>
+
+            <!-- Feature Importance -->
+            <div class="chart-card" id="featureImportanceContainer">
+                <div id="placeholderFeatureBox" class="confusion-placeholder">
+                    <p>Feature Importance</p>
+                </div>
+                <img id="featureImportanceImage"
+                    alt="Feature Importance Chart"
+                    style="display: none; width: 90%; height: 90%; border-radius: 8px;" />
+            </div>
+        </div>
+        
+
+        <!-- JavaScript Section -->
+        <script>
+            // Prediction Button Handler
+            document.getElementById("predict-btn").addEventListener("click", () => {
+                const featureInput = document.getElementById("features").value;
+                const features = featureInput.split(",").map(Number);
+
+                fetch('http://127.0.0.1:5000/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ features: features })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").innerText = data.error ? 
+                        `Error: ${data.error}` : `Prediction: ${data.prediction}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById("result").innerText = `Fetch error: ${error}`;
+                });
+            });
+
+
+            const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+            const doughnutChart = new Chart(doughnutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Adware', 'Benign', 'Ransomware', 'Riskware','Trojan'],
+                    datasets: [{
+                        label: 'Malware Prediction Accuracy',
+                        data: [20, 20, 20, 20, 20], // This should be updated dynamically
+                        backgroundColor: [
+                            '#0d47a1',  // Benign - Dark Blue
+                            '#1976d2',  // Advare - Medium Blue
+                            '#0288d1',  // Risk ware - Light Blue
+                            '#4dd0e1',  // Trojan - Aqua
+                            '#81d4fa'   // Ransomware - Soft Sky Blue
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    const dataset = data.datasets[0];
+                                    const total = dataset.data.reduce((sum, val) => sum + val, 0);
+
+                                    return data.labels.map((label, i) => {
+                                        const value = dataset.data[i];
+                                        let percentage = total > 0 ? ((value / total) * 100).toFixed(2) : "0.00";
+                                        
+                                        // Add leading zero if less than 10
+                                        if (parseFloat(percentage) < 10) {
+                                            percentage = "0" + percentage;
+                                        }
+
+                                        return {
+                                            text: `${percentage}% ${label}`,
+                                            fillStyle: dataset.backgroundColor[i],
+                                            strokeStyle: dataset.backgroundColor[i],
+                                            index: i
+                                        };
+                                    });
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Malware Prediction Accuracy',
+                            font: {
+                                size: 18 //  Increase title font size
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            // -------------------------------------------------> Line Chart
+            const lineCtx = document.getElementById('myChart').getContext('2d');
+            const lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Adware', 'Benign', 'Ransomware', 'Riskware','Trojan'],
+                    datasets: [{
+                        label: 'Malware Prediction',
+                        data: [20, 20, 20, 20, 20],
+                        backgroundColor: 'rgba(13, 71, 161, 0.2)',
+                        borderColor: '#0d47a1',
+                        borderWidth: 2,
+                        fill: true,
+                        pointBackgroundColor: '#0d47a1',
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Malware Prediction (Line Chart)',
+                            font: {
+                                size: 18
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+
+
+
+            // -------------------------------------------------> Bar Chart
+            // Bar Chart - Malware Category Distribution
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            const barChart = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Adware', 'Benign', 'Ransomware', 'Riskware','Trojan'],
+                    datasets: [{
+                        label: 'Malware Categories Detected',
+                        data: [20, 20, 20, 20, 20],
+                        backgroundColor: ['#0d47a1', '#1976d2', '#0288d1', '#4dd0e1', '#81d4fa']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false //  Hide legend
+                        },
+                        title: {
+                            display: true,
+                            text: 'Malware Category Distribution',
+                            font: {
+                                size: 18 //  Increase title font size
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 14 //  X-axis label size
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                callback: function(value) {
+                                    return value + '%';
+                                },
+                                font: {
+                                    size: 14 //  Y-axis label size
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            
+
+        
+
+            
+
+
+        document.getElementById("predict-btn").addEventListener("click", () => {
+            const fileInput = document.getElementById("csvFile");
+            const file = fileInput.files[0];
+
+            if (!file) {
+                document.getElementById("result").innerText = "Please upload a CSV file.";
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById("result").innerText = "Error: " + data.error;
+                    return;
+                }
+
+                document.getElementById("result").innerText = "Prediction Completed Successfully!";
+
+                // ✅ Extract result
+                const labels = Object.keys(data.result);
+                const values = Object.values(data.result);
+
+                // ✅ Update Doughnut Chart
+                doughnutChart.data.labels = labels;
+                doughnutChart.data.datasets[0].data = values;
+                doughnutChart.update();
+
+                // ✅ Update Bar Chart
+                barChart.data.labels = labels;
+                barChart.data.datasets[0].data = values;
+                barChart.update();
+
+                // ✅ Update Line Chart
+                lineChart.data.labels = labels;
+                lineChart.data.datasets[0].data = values;
+                lineChart.update();
+
+                // You can now pass `confusionMatrix` to a custom heatmap or table rendering function
+                // ✅ This is the critical part
+
+                document.getElementById("placeholderBox").style.display = "none";
+                const confusionMatrixImg = document.getElementById("confusionMatrixImage");
+                confusionMatrixImg.src = `data:image/png;base64,${data.confusion_matrix}`;
+                confusionMatrixImg.style.display = "block";
+
+
+                                
+                // Hide placeholder and show feature importance image
+                document.getElementById("placeholderFeatureBox").style.display = "none";
+                const featureImg = document.getElementById("featureImportanceImage");
+                featureImg.src = `data:image/png;base64,${data.feature_importance}`;
+                featureImg.style.display = "block";
+
+            })
+            .catch(error => {
+                console.error("Fetch error:", error);
+                document.getElementById("result").innerText = "Fetch error: " + error;
+            });
+        });
+    
+        </script>
+    </section>
+</body>
+</html>

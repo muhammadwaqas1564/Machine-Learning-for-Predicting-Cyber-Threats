@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1f2937; /* Dark gray background */
+      color: #e5e7eb; /* Light gray text */
+      font-family: Arial, sans-serif;
+    }
+    .dashboard-card {
+      background-color: #374151; /* Slightly lighter gray */
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .profile-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .profile-header img {
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+    .user-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .user-email {
+      font-size: 1rem;
+      color: #9ca3af;
+    }
+    .user-bio {
+      margin-top: 1rem;
+      font-size: 1rem;
+      color: #e5e7eb;
+    }
+    .logout-btn {
+      background-color: #10b981; /* Green */
+      color: #1f2937; /* Dark text */
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: block;
+      margin: 1rem auto;
+    }
+    .logout-btn:hover {
+      background-color: #059669; /* Darker green */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="dashboard-card">
+      <div class="profile-header">
+        <img src="https://www.example.com/profile_picture.jpg" alt="Profile Picture" id="profile-picture">
+        <h2 class="user-name" id="user-name">John Doe</h2>
+        <p class="user-email" id="user-email">john.doe@example.com</p>
+      </div>
+      <div class="user-bio">
+        <p id="user-bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis ipsum sit amet felis dapibus fermentum.</p>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    // Simulate fetching user data
+    window.onload = function() {
+      // In a real-world scenario, fetch data from the server
+      const user = {
+        name: "John Doe",
+        email: "john.doe@example.com",
+        profilePicture: "https://www.example.com/profile_picture.jpg",
+        bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis ipsum sit amet felis dapibus fermentum."
+      };
+
+      // Set user data dynamically
+      document.getElementById('user-name').innerText = user.name;
+      document.getElementById('user-email').innerText = user.email;
+      document.getElementById('profile-picture').src = user.profilePicture;
+      document.getElementById('user-bio').innerText = user.bio;
+    };
+
+    // Logout function to clear session
+    function logout() {
+      alert("Logged out successfully!");
+      // Redirect to login page (replace with actual logic for your app)
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

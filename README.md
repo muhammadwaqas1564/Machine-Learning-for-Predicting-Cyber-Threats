@@ -1,7 +1,9 @@
 **🛡️ Cyber Threat Detection Web App**
+
 This is a Flask-based Intrusion Detection System (IDS) Web Application that uses a Random Forest Classifier to classify network traffic or system events into different categories of cyber threats.
 
 **The app provides:**
+
 🔐 User authentication (Sign Up & Login) with SQLite
 
 📊 Dashboard views (Dataset, Intrusion Detection, Executive Dashboard)
@@ -18,6 +20,7 @@ This is a Flask-based Intrusion Detection System (IDS) Web Application that uses
 
 
 **User Management**
+
 Signup with unique email
 
 Login & authentication system (SQLite database)
@@ -38,7 +41,9 @@ Confusion Matrix heatmap
 
 Top 10 Feature Importances (Bar chart)
 
-**Threat Categories**  Benign
+**Threat Categories**  
+  
+  Benign
   Adware
   Riskware
   Trojan
@@ -46,6 +51,7 @@ Top 10 Feature Importances (Bar chart)
 
 
 **🛠️ Tech Stack**
+
 Backend: Flask, SQLite
 
 Machine Learning: Scikit-learn (Random Forest Classifier)
@@ -57,6 +63,7 @@ Frontend: HTML templates, Bootstrap/CSS
 Other: Flask-CORS, Joblib, Pandas
 
 **📂 Project Structure**
+
 ├── app.py                # Main Flask application
 
 ├── ai_models/            # ML models and features
@@ -74,6 +81,7 @@ Other: Flask-CORS, Joblib, Pandas
 ├── users.db              # SQLite database for user management
 
 **⚙️ Installation & Setup**
+
 Clone the repository
 
 git clone https://github.com/muhammadwaqas1564/Machine-Learning-for-Predicting-Cyber-Threats.git
@@ -81,23 +89,28 @@ cd cyber-threat-detection
 
 
 **Create a virtual environment & activate it**
+
 python -m venv venv
 source venv/bin/activate   # On Linux/Mac
 venv\Scripts\activate      # On Windows
 
 
 **Install dependencies**
+
 pip install -r requirements.txt
 
 
 **Run the Flask app**
+
 python app.py
 
 
 **Open your browser at:**
+
 http://127.0.0.1:5000/
 
 **📊 Input Format for Prediction**
+
 Upload a CSV file containing the selected features listed in ai_models/features.txt.
 
 The file must also include a Class column for validation.
@@ -109,6 +122,7 @@ feature1,feature2,feature3,...,Class
 0.34,0.67,0.89,...,4
 
 **📸 Screenshots**
+
 Login Page
 
 Dashboard
@@ -118,4 +132,5 @@ Confusion Matrix Heatmap
 Feature Importance Graph
 
 **👨‍💻 Author**
+
 Developed by Muhammad Waqas

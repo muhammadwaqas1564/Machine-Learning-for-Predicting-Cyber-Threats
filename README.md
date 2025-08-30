@@ -118,18 +118,12 @@ The file must also include a Class column for validation.
 Example (first few rows):
 
 feature1,feature2,feature3,...,Class
+
 0.12,0.45,0.78,...,1
+
 0.34,0.67,0.89,...,4
 
-**📸 Screenshots**
 
-Login Page
-
-Dashboard
-
-Confusion Matrix Heatmap
-
-Feature Importance Graph
 
 **👨‍💻 Author**
 

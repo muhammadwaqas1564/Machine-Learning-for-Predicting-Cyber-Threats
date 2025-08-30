@@ -58,12 +58,19 @@ Other: Flask-CORS, Joblib, Pandas
 
 **📂 Project Structure**
 ├── app.py                # Main Flask application
+
 ├── ai_models/            # ML models and features
+
 │   ├── random_forest_Classifier.pkl
+
 │   ├── scaler.pkl
+
 │   └── features.txt
+
 ├── templates/            # HTML templates (login, signup, dashboard, etc.)
+
 ├── static/               # Static files (CSS, JS, images)
+
 ├── users.db              # SQLite database for user management
 
 **⚙️ Installation & Setup**
